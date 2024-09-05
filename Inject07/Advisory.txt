@@ -1,0 +1,51 @@
+Security Advisory: Advanced Persistent Threat (APT) Incident by Wally Group
+Date: August 29, 2024
+Advisory Number: VNCERT-2024-APT-01
+Severity: High
+Affected Systems: Windows
+Affected Organizations: Government agencies, Financial institutions, Energy sectors, and Critical infrastructure
+
+# Overview
+VNCERT has identified a new wave of sophisticated cyber attacks attributed to an Advanced Persistent Threat (APT) group known as "Wally Group." This group has been actively targeting high-profile organizations across various sectors, including government, finance, and critical infrastructure. The attacks involve the deployment of custom malware designed to evade detection, exfiltrate sensitive data, and establish persistent access within the victim machine.
+
+# Description
+The Wally Group is known for using various known initial access method, leveraging Command and Control server. The recent campaign involves the distribution of malware via spear-phishing emails containing malicious attachments, such as .chm file (Compiled HTML Help File). The malware delivery process follows a specific flow to maximize stealth and effectiveness:
+
+- Initial Access: The attack begins with a spear-phishing email containing a .chm file, which is designed to look like a legitimate document or help file. When executed, the .chm file runs a command (cmd) to store an encoded Base64 blob on the system.
+- Payload Decoding: The Base64-encoded payload is then decoded using the certutil command-line utility, which converts the blob into a .vbs (VBScript) file.
+- VBS Execution: The .vbs file is executed, initiating the next stage of the attack. This script is responsible for downloading a malicious .exe file from a remote server.
+- Persistence Mechanism: The downloaded .exe file is executed and establishes persistence by modifying the Windows registry, ensuring that the malware is executed every time the system starts.
+- C2 Communication: The malware establishes communication with command-and-control (C2) servers using custom XOR encryption methods, allowing the attackers to maintain control over the infected system and exfiltrate data.
+
+# Impact
+Organizations affected by this campaign may experience:
+
+- Unauthorized access to sensitive information, including intellectual property, confidential communications, and financial data.
+- Potential disruption of operations due to the malware's capability to run unsafe downloaded binaries from Internet.
+- Long-term compromise due to the sophisticated persistence mechanisms employed by the attackers.
+
+# Recommendations
+VNCERT strongly advises all organizations, particularly those in the affected sectors, to take immediate action to mitigate the risk of compromise:
+
+- Apply YARA Rules: Implement the provided YARA rule to detect the presence of the Wally Group malware on your systems.
+- Network Segmentation: Ensure that critical network segments are isolated and closely monitored for unusual activity.
+- Update Systems: Apply all available security patches and updates to operating systems, software, and network devices.
+- Monitor and Detect: Enhance monitoring for signs of compromise, including unusual outbound traffic, unauthorized access attempts, and changes to system files.
+- User Training: Conduct security awareness training to educate employees about spear-phishing and other social engineering tactics.
+- Incident Response: Develop and test incident response plans to ensure a swift and coordinated response in the event of an attack.
+
+# Detection
+The following indicators of compromise (IOCs) should be added to your detection systems:
+
+- MD5: 860F86601BC18DD205A5EDC0D57A658D
+- MD5: 0DE9BE1ABA2E6DC3CE016FB24BFAAD9E
+- Byte Array: 5F 26 40 40 49 6F 79 6E 6F 40 40 39 6F 40 40 5D 6C 6C 58 7D 68 7D 40 40 50 73 7F 7D 70 40 40 48 79 71 6C 40 40 5F 50 43 2A 2E 2F 2B 79 28 2A 2A 7D 6F 68 78
+- Byte Array: 0F 08 15 09 0B 0A 15 09 0E 08 15 09 03
+
+# Contact Information
+For further assistance or to report an incident, please contact VNCERT at:
+
+Email: ir@vncert.vn
+Disclaimer: The information provided in this advisory is intended to assist organizations in protecting against the identified threats. VNCERT assumes no responsibility for any consequences arising from the use of this information.
+
+This security advisory should help organizations understand the threat posed by the Wally Group and take necessary precautions to defend against this APT attack.
